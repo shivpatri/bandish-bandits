@@ -2,7 +2,7 @@
 
 The Multi-Armed Bandit problem is a classic dilemma in probability theory and machine learning. It involves an agent who, at each of a sequence of trials, must choose one out of several "arms" (or actions) to play. Each arm provides a random reward from an unknown probability distribution. The objective of the agent is to maximize the cumulative reward over a series of trials.
 
-![jpg](Bandits_files/Bandits.JPG)
+![jpg](Bandits_files/bandits.jpg)
 
 ### Key Concepts:
 
