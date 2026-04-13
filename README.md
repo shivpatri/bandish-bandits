@@ -2,7 +2,7 @@
 
 The Multi-Armed Bandit problem is a classic dilemma in probability theory and machine learning. It involves an agent who, at each of a sequence of trials, must choose one out of several "arms" (or actions) to play. Each arm provides a random reward from an unknown probability distribution. The objective of the agent is to maximize the cumulative reward over a series of trials.
 
-![png](Bandits_files/Bandits.jpg)
+![jpg](Bandits_files/Bandits.JPG)
 
 ### Key Concepts:
 
@@ -78,9 +78,9 @@ $$2e^{-2n_i\delta^2} = \frac{1}{t} \implies \delta_i = \sqrt{\frac{2 \ln t}{n_i}
 #### 3. The UCB1 Selection Rule (Weighted Implementation)
 As seen in our simulation code, we use a weighted version of the selection rule to provide finer control over the agent's behavior. At each time step $t$, the agent selects the arm $i$ that maximizes:
 
-$$\text{UCB}_i(t) = (\text{w{explore}} \times \bar{X}_i) + (\text{Exploration Weight} \times \sqrt{\frac{2 \ln t}{n_i}})$$
+$$\text{UCB}_i(t) = ({w_\text{explore}} \times \bar{X}_i) + (w_\text{exploit} \times \sqrt{\frac{2 \ln t}{n_i}})$$
 
-- **Exploitation Term ($w_{exploit} \times \bar{X}_i$)**: Favors arms that have performed well in the past. The **Exploitation Weight** (defined as $1 - \text{weight\_explore}$) allows us to scale the importance of known historical performance.
+- **Exploitation Term ($w_{exploit} \times \bar{X}_i$)**: Favors arms that have performed well in the past. The **Exploitation Weight** (defined as $w_\text{exploit} = 1 - w_\text{explore}$) allows us to scale the importance of known historical performance.
 - **Exploration Term ($w_{explore} \times \sqrt{\frac{2 \ln t}{n_i}}$)**: Favors arms that have not been pulled many times. The **Exploration Weight** allows us to manually tune how much the agent prioritizes gathering new information. As $t$ increases, this term grows slowly for all arms, but as $n_i$ increases for a specific arm, its exploration bonus shrinks, reflecting increased certainty.
 
 ### The Epsilon-Greedy Algorithm
