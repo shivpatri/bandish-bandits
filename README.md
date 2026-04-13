@@ -2,7 +2,7 @@
 
 The Multi-Armed Bandit problem is a classic dilemma in probability theory and machine learning. It involves an agent who, at each of a sequence of trials, must choose one out of several "arms" (or actions) to play. Each arm provides a random reward from an unknown probability distribution. The objective of the agent is to maximize the cumulative reward over a series of trials.
 
-<img src="https://drive.google.com/uc?id=1xbF_kbUu0RYJimdEKS3yOnP5sutqk1Ck" alt="slot_machine" width="500">
+![png](Bandits_files/Bandits.jpg)
 
 ### Key Concepts:
 
@@ -41,48 +41,19 @@ We will compare the performance of UCB1 and Epsilon greedy strategies for this p
 
 ### Bandit Reward Distributions
 
-To analyze the performance of the UCB and Epsilon-Greedy algorithms, we use six distinct probability distributions for the bandits. Below are the properties and means for each:
+To analyze the performance of the UCB and Epsilon-Greedy algorithms, we use six distinct probability distributions for the bandits. Below are the probability distribution plots for each arm:
 
 ---
 
 #### 1. Uniform Distribution (Bandit 0)
-Rewards are spread evenly between $a$ and $b$. Every value in this range has an equal probability of being selected, representing a scenario with maximum uncertainty within a bounded interval.
-- **Parameters**: $\text{Mean} = 8.0, \text{Range} = 6.0$, resulting in $[5, 11]$.
-- **Mean**: $E[X] = \frac{a + b}{2} = 8.0$
-
 #### 2. Trapezoidal Distribution (Bandit 1)
-This distribution is a hybrid: it features a central plateau of maximum probability (the rectangle) and linear ramps (triangles) on either side. It models processes where rewards are most likely within a specific range but can taper off gradually to lower/higher limits.
-- **Parameters**: $a=4, b=6, c=14, d=16$.
-- **Mean**: $E[X] = \frac{1}{3} \frac{d^2+c^2+cd - a^2-b^2-ab}{d+c-a-b} = 10.0$
-
 #### 3. Beta Distribution (Bandit 2)
-Highly versatile, the Beta distribution is defined on $[0, 1]$ and shaped by $\alpha$ and $\beta$. With $\alpha=3$ and $\beta=5$, it is slightly right-skewed, meaning lower rewards within its range are more common than very high ones.
-- **Parameters**: $\alpha=3, \beta=5$, scaled by $S=24$.
-- **Mean**: $E[X] = S \times \frac{\alpha}{\alpha + \beta} = 24 \times \frac{3}{8} = 9.0$
-
 #### 4. Truncated Normal Distribution (Bandit 3)
-This starts as a standard Gaussian 'bell curve' but is forcibly cut off at specific boundaries. It models systems with a central 'target' reward but where physical or logical constraints prevent extreme outliers.
-- **Parameters**: $\mu=9, \sigma=2$, restricted to $[0, 15]$.
-- **Mean**: For symmetric truncation around $\mu$, $E[X] \approx \mu = 9.0$
-
 #### 5. Triangular Distribution (Bandit 4)
-Often used when data is limited, it is defined by a minimum, a maximum, and a peak (mode). It provides a simple way to model a distribution that isn't symmetric, as seen here where the peak is closer to the right boundary.
-- **Parameters**: $a=2, c=8, b=11$.
-- **Mean**: $E[X] = \frac{a + b + c}{3} = 7.0$
-
 #### 6. Wigner Semicircle Distribution (Bandit 5)
-Originating from random matrix theory, its probability density function forms a semicircle. It is unique because its density drops to zero very sharply at the radius limits, creating a very 'tight' and bounded distribution.
-- **Parameters**: Radius $R=8$ (centered at $8$).
-- **Mean**: $E[X] = R = 8.0$
-
-    True Means: [8, 10.0, 9.0, 9, 7.0, 8]
-
-
-
     
 ![png](Bandits_files/Bandits_4_0.png)
     
-
 
 ### The UCB Algorithm
 
@@ -107,9 +78,9 @@ $$2e^{-2n_i\delta^2} = \frac{1}{t} \implies \delta_i = \sqrt{\frac{2 \ln t}{n_i}
 #### 3. The UCB1 Selection Rule (Weighted Implementation)
 As seen in our simulation code, we use a weighted version of the selection rule to provide finer control over the agent's behavior. At each time step $t$, the agent selects the arm $i$ that maximizes:
 
-$$\text{UCB}_i(t) = (\text{Exploitation Weight} \times \bar{X}_i) + (\text{Exploration Weight} \times \sqrt{\frac{2 \ln t}{n_i}})$$
+$$\text{UCB}_i(t) = (\text{w{explore}} \times \bar{X}_i) + (\text{Exploration Weight} \times \sqrt{\frac{2 \ln t}{n_i}})$$
 
-- **Exploitation Term ($w_{exploit} \times \bar{X}_i$)**: Favors arms that have performed well in the past. The **Exploitation Weight** (defined as $1 - \text{exploration_weight}$) allows us to scale the importance of known historical performance.
+- **Exploitation Term ($w_{exploit} \times \bar{X}_i$)**: Favors arms that have performed well in the past. The **Exploitation Weight** (defined as $1 - \text{weight\_explore}$) allows us to scale the importance of known historical performance.
 - **Exploration Term ($w_{explore} \times \sqrt{\frac{2 \ln t}{n_i}}$)**: Favors arms that have not been pulled many times. The **Exploration Weight** allows us to manually tune how much the agent prioritizes gathering new information. As $t$ increases, this term grows slowly for all arms, but as $n_i$ increases for a specific arm, its exploration bonus shrinks, reflecting increased certainty.
 
 ### The Epsilon-Greedy Algorithm
